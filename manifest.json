@@ -1,6 +1,6 @@
 {
-	"name": "TwitchTab Highlander - There can be only one",
-	"short_name": "TwitchTab Highlander",
+	"name": "Twitch Highlander - There can be only one",
+	"short_name": "Twitch Highlander",
 	"version": "1.0",
 	"manifest_version": 2,
 	"description": "Mutes any but the most recent tab playing a Twitch stream.",
