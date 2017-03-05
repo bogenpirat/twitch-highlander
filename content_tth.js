@@ -8,7 +8,11 @@ if(isTwitchStreamPage) {
 	 */
 	chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
 		if(msg.message == STFU_MSG) {
-			mute();
+			chrome.storage.local.get(function(settings) {
+				if(settings.enabled !== false) {
+					mute();
+				}
+			});
 		}
 	});
 
@@ -16,7 +20,11 @@ if(isTwitchStreamPage) {
 	 *	take control if the tab is brought to front
 	 */
 	window.addEventListener("focus", function(ev) {
-		takeControl();
+		chrome.storage.local.get(function(settings) {
+			if(settings.enabled !== false) {
+				takeControl();
+			}
+		});
 	});
 
 	/* 
@@ -24,7 +32,11 @@ if(isTwitchStreamPage) {
 	 *	so if the tab is visible and is a twitch tab, take control
 	 */
 	if(document.visibilityState == "visible") {
-		takeControl();
+		chrome.storage.local.get(function(settings) {
+			if(settings.enabled !== false) {
+				takeControl();
+			}
+		});
 	}
 	
 	/*
@@ -33,7 +45,11 @@ if(isTwitchStreamPage) {
 	 */
 	window.addEventListener("beforeunload", function (e) {
 		if(document.visibilityState == "visible" && localStorage.getItem("muted") == "true" && !isMuted()) {
-			localStorage.setItem("muted", "false");
+			chrome.storage.local.get(function(settings) {
+				if(settings.enabled !== false) {
+					localStorage.setItem("muted", "false");
+				}
+			});
 		}
 	});
 }
