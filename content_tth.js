@@ -1,5 +1,6 @@
 var isTwitchStreamPage = document.querySelector("meta[content*='twitch://stream']") || document.querySelector("#video-playback") ? true : false;
 var STFU_MSG = "STFU";
+var CSS_MUTE_BTN_BIT = "button.player-button--volume";
 
 if(isTwitchStreamPage) {
 	/*
@@ -8,8 +9,10 @@ if(isTwitchStreamPage) {
 	 */
 	chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
 		if(msg.message == STFU_MSG) {
+			console.log("received a mute request");
 			chrome.storage.local.get(function(settings) {
 				if(settings.enabled !== false) {
+					console.log("muting");
 					mute();
 				}
 			});
@@ -64,7 +67,7 @@ function takeControl() {
 
 function unmute() {
 	if(isMuted()) {
-		var muteBtn = document.querySelector("button.js-control-volume");
+		var muteBtn = document.querySelector(CSS_MUTE_BTN_BIT);
 		if(muteBtn) {
 			muteBtn.click();
 		}
@@ -73,7 +76,7 @@ function unmute() {
 
 function mute() {
 	if(!isMuted()) {
-		var muteBtn = document.querySelector("button.js-control-volume");
+		var muteBtn = document.querySelector(CSS_MUTE_BTN_BIT);
 		if(muteBtn) {
 			muteBtn.click();
 		}
@@ -81,5 +84,5 @@ function mute() {
 }
 
 function isMuted() {
-	return document.querySelector(".player[data-muted=false]") ? false : true;
+	return document.querySelector("span.mute-button") ? false : true;
 }
